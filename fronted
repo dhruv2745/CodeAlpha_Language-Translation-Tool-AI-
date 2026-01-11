@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Translator</title>
+</head>
+<body>
+    <h2>AI Language Translator</h2>
+
+    <textarea id="text's" placeholder="Enter text"></textarea><br>
+
+    <select id="source">
+        <option value="en">English</option>
+        <option value="hi">Hindi</option>
+    </select>
+
+    <select id="target">
+        <option value="fr">French</option>
+        <option value="es">Spanish</option>
+    </select>
+
+    <button onclick="translateText()">Translate</button>
+
+    <h3>Output:</h3>
+    <p id="result"></p>
+
+<script>
+function translateText() {
+    fetch("/translate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            text: document.getElementById("text's").value,
+            source: document.getElementById("source").value,
+            target: document.getElementById("target").value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.translated_text;
+    });
+}
+</script>
+</body>
+</html>
